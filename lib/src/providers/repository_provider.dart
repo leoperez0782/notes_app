@@ -51,4 +51,12 @@ class RepositoryProvider {
     print(resp);
     return resp;
   }
+
+  Future<List<NoteModel>> findAllNotes() async {
+    final db = await database;
+    final resp = await db.query('Notes');
+    return resp.isNotEmpty
+        ? resp.map((e) => NoteModel.fromJson(e)).toList()
+        : [];
+  }
 }

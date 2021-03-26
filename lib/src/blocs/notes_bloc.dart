@@ -11,11 +11,16 @@ class NotesBloc {
     _resultController?.close();
   }
 
-  Stream<List<NoteModel>> get notesControler => _notesController.stream;
-  Stream<bool> get resultControler => _resultController.stream;
+  Stream<List<NoteModel>> get notesStream => _notesController.stream;
+  Stream<bool> get resultStream => _resultController.stream;
 
   void createNote(NoteModel model) async {
     final res = await _repoProvider.createNote(model);
-    _resultController.sink.add((res == 1));
+    _resultController.sink.add((res > 0));
+  }
+
+  void loadNotes() async {
+    final res = await _repoProvider.findAllNotes();
+    _notesController.sink.add(res);
   }
 }
