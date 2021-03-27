@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/src/blocs/notes_bloc.dart';
 import 'package:notes_app/src/blocs/provider.dart';
 import 'package:notes_app/src/models/note_model.dart';
+import 'package:notes_app/src/widgets/note_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -42,10 +43,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _createItem(NoteModel note) {
-    return ListTile(
-      title: Text(note.title),
-      subtitle: Text(note.content),
-      onTap: () {},
-    );
+    return NoteWidget(note);
   }
 }

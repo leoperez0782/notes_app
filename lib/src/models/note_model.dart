@@ -11,12 +11,19 @@ class NoteModel {
     this.content,
     this.complete,
     this.creationDate,
-  });
+  }) {
+    if (this.complete == null) {
+      complete = 0;
+    }
+    if (this.creationDate == null) {
+      this.creationDate = DateTime.now().toString();
+    }
+  }
 
   int id;
   String title;
   String content;
-  bool complete;
+  int complete;
   String creationDate;
 
   factory NoteModel.fromJson(Map<String, dynamic> json) => NoteModel(
