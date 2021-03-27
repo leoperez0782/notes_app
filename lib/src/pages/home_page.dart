@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/src/blocs/notes_bloc.dart';
 import 'package:notes_app/src/blocs/provider.dart';
 import 'package:notes_app/src/models/note_model.dart';
+import 'package:notes_app/src/widgets/custom_appbar.dart';
 import 'package:notes_app/src/widgets/note_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +18,7 @@ class _HomePageState extends State<HomePage> {
     final notesBloc = Provider.notesBloc(context);
     notesBloc.loadNotes();
     return Scaffold(
+      appBar: CustomAppbar(),
       body: _createNoteList(notesBloc),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {Navigator.pushNamed(context, 'new_note')},
