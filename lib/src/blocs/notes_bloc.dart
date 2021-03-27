@@ -27,4 +27,8 @@ class NotesBloc {
   Future<int> deleteNote(NoteModel model) async {
     return await _repoProvider.deleteNote(model.id);
   }
+
+  Future<int> updateNote(NoteModel note) async {
+    return await _repoProvider.updateNote(note);
+  }
 }

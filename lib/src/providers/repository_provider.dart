@@ -66,4 +66,11 @@ class RepositoryProvider {
 
     return resp;
   }
+
+  Future<int> updateNote(NoteModel note) async {
+    final db = await database;
+    final resp = await db
+        .update('Notes', note.toJson(), where: 'id=?', whereArgs: [note.id]);
+    return resp;
+  }
 }

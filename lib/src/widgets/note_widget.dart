@@ -22,7 +22,8 @@ class NoteWidget extends StatelessWidget {
               icon: Icon(Icons.delete),
               onPressed: () => print('tap en el icon Button'),
             ),
-            onTap: () => print('tap en el listTile'),
+            onTap: () =>
+                Navigator.pushNamed(context, 'new_note', arguments: _model),
           ),
           SizedBox(height: 20.0),
           Row(

@@ -10,12 +10,15 @@ class NewNotePage extends StatefulWidget {
 
 class _NewNotePageState extends State<NewNotePage> {
   final formKey = GlobalKey<FormState>();
-  final NoteModel model = NoteModel();
+  NoteModel model = NoteModel();
   NotesBloc notesBloc;
   @override
   Widget build(BuildContext context) {
     notesBloc = Provider.notesBloc(context);
-
+    final NoteModel noteData = ModalRoute.of(context).settings.arguments;
+    if (noteData != null) {
+      model = noteData;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Nueva nota'),
@@ -64,6 +67,8 @@ class _NewNotePageState extends State<NewNotePage> {
     formKey.currentState.save();
     if (model.id == null) {
       notesBloc.createNote(model);
+    } else {
+      notesBloc.updateNote(model);
     }
     Navigator.pushReplacementNamed(context, 'home');
   }
