@@ -23,4 +23,8 @@ class NotesBloc {
     final res = await _repoProvider.findAllNotes();
     _notesController.sink.add(res);
   }
+
+  Future<int> deleteNote(NoteModel model) async {
+    return await _repoProvider.deleteNote(model.id);
+  }
 }

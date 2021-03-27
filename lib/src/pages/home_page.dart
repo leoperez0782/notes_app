@@ -34,7 +34,8 @@ class _HomePageState extends State<HomePage> {
             final notes = snapshot.data;
             return ListView.builder(
                 itemCount: notes.length,
-                itemBuilder: (context, i) => _createItem(notes[i]));
+                itemBuilder: (context, i) =>
+                    _createItem(notes[i], notesBloc, notes, i));
           }
           return Center(
             child: CircularProgressIndicator(),
@@ -42,7 +43,18 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  Widget _createItem(NoteModel note) {
-    return NoteWidget(note);
+  Widget _createItem(
+      NoteModel note, NotesBloc notesBloc, List<NoteModel> notes, int index) {
+    return Dismissible(
+      key: UniqueKey(),
+      child: NoteWidget(note),
+      onDismissed: (direction) {
+        notesBloc.deleteNote(note).then((value) => {
+              setState(() {
+                notes.removeAt(index);
+              })
+            });
+      },
+    );
   }
 }

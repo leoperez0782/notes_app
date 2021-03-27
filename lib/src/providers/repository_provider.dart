@@ -59,4 +59,11 @@ class RepositoryProvider {
         ? resp.map((e) => NoteModel.fromJson(e)).toList()
         : [];
   }
+
+  Future<int> deleteNote(int id) async {
+    final db = await database;
+    final resp = await db.delete('Notes', where: 'id=?', whereArgs: [id]);
+
+    return resp;
+  }
 }

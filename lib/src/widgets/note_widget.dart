@@ -20,8 +20,9 @@ class NoteWidget extends StatelessWidget {
                 : Icon(Icons.check_box_outline_blank),
             trailing: IconButton(
               icon: Icon(Icons.delete),
-              onPressed: () {},
+              onPressed: () => print('tap en el icon Button'),
             ),
+            onTap: () => print('tap en el listTile'),
           ),
           SizedBox(height: 20.0),
           Row(
