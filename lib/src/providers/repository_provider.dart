@@ -73,4 +73,15 @@ class RepositoryProvider {
         .update('Notes', note.toJson(), where: 'id=?', whereArgs: [note.id]);
     return resp;
   }
+
+  Future<List<NoteModel>> findNotesByTitle(String searchText) async {
+    final db = await database;
+    String whereArgs = '$searchText%';
+    final resp =
+        await db.query('Notes', where: 'title LIKE ?', whereArgs: [whereArgs]);
+    print('Desde where en db ${resp.length}');
+    return resp.isNotEmpty
+        ? resp.map((e) => NoteModel.fromJson(e)).toList()
+        : [];
+  }
 }

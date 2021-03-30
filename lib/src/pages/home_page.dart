@@ -2,23 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/src/blocs/notes_bloc.dart';
 import 'package:notes_app/src/blocs/provider.dart';
 import 'package:notes_app/src/models/note_model.dart';
-import 'package:notes_app/src/widgets/custom_appbar.dart';
+import 'package:notes_app/src/widgets/decorations/inputs_decorations.dart';
 import 'package:notes_app/src/widgets/note_widget.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  List<NoteModel> _notes = [];
+  String _searchText;
+  final TextEditingController _filter = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final notesBloc = Provider.notesBloc(context);
-    notesBloc.loadNotes();
+
+    _prepareTextController(notesBloc);
     return Scaffold(
-      appBar: CustomAppbar(),
+      appBar: PreferredSize(
+        child: _createAppbar(),
+        preferredSize: Size(double.infinity, 50.0),
+      ),
       body: _createNoteList(notesBloc),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {Navigator.pushNamed(context, 'new_note')},
@@ -33,11 +39,11 @@ class _HomePageState extends State<HomePage> {
         builder:
             (BuildContext context, AsyncSnapshot<List<NoteModel>> snapshot) {
           if (snapshot.hasData) {
-            final notes = snapshot.data;
+            this._notes = snapshot.data;
             return ListView.builder(
-                itemCount: notes.length,
+                itemCount: _notes.length,
                 itemBuilder: (context, i) =>
-                    _createItem(notes[i], notesBloc, notes, i));
+                    _createItem(_notes[i], notesBloc, i));
           }
           return Center(
             child: CircularProgressIndicator(),
@@ -45,18 +51,70 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  Widget _createItem(
-      NoteModel note, NotesBloc notesBloc, List<NoteModel> notes, int index) {
+  Widget _createItem(NoteModel note, NotesBloc notesBloc, int index) {
     return Dismissible(
       key: UniqueKey(),
       child: NoteWidget(note),
       onDismissed: (direction) {
         notesBloc.deleteNote(note).then((value) => {
               setState(() {
-                notes.removeAt(index);
+                _notes.removeAt(index);
               })
             });
       },
     );
+  }
+
+  Widget _createAppbar() {
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.only(top: 5.0, bottom: 10.0),
+        child: Stack(
+          children: [
+            AppBar(
+              centerTitle: true,
+              title: TextField(
+                controller: _filter,
+                style: TextStyle(color: Colors.white),
+                cursorColor: Colors.white,
+                autofocus: true,
+                decoration: InputsDecorations.appBarTextFieldInputDecoration,
+              ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)),
+              actions: [
+                Container(
+                  padding: EdgeInsets.only(bottom: 5.0),
+                  child: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+              elevation: 10.0,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _prepareTextController(NotesBloc notesBloc) {
+    _filter.addListener(() {
+      if (_filter.text.isEmpty) {
+        setState(() {
+          _searchText = "";
+          notesBloc.loadNotes();
+        });
+      } else {
+        setState(() {
+          _searchText = _filter.text;
+          // _notes =
+          //     _notes.where((n) => n.title.startsWith(_searchText)).toList();
+          notesBloc.loadByTitle(_searchText);
+          print('Notas desde search ${_notes.length}');
+        });
+      }
+    });
   }
 }
