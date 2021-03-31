@@ -18,11 +18,17 @@ class _HomePageState extends State<HomePage> {
     final notesBloc = Provider.notesBloc(context);
 
     return Scaffold(
-      appBar: PreferredSize(
-        child: CustomSearchAppbar(),
-        preferredSize: Size(double.infinity, 50.0),
+      appBar: AppBar(
+        title: Text('Notas'),
+        centerTitle: true,
       ),
-      body: _createNoteList(notesBloc),
+      body: Scaffold(
+        appBar: PreferredSize(
+          child: CustomSearchAppbar(),
+          preferredSize: Size(double.infinity, 50.0),
+        ),
+        body: _createNoteList(notesBloc),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {Navigator.pushNamed(context, 'new_note')},
         child: Icon(Icons.add),

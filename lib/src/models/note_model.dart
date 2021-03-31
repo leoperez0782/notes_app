@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:notes_app/src/utils/dates_formater_util.dart';
+
 NoteModel noteModelFromJson(String str) => NoteModel.fromJson(json.decode(str));
 
 String noteModelToJson(NoteModel data) => json.encode(data.toJson());
@@ -16,7 +18,8 @@ class NoteModel {
       complete = 0;
     }
     if (this.creationDate == null) {
-      this.creationDate = DateTime.now().toString();
+      this.creationDate =
+          DatesFormaterUtil.daysMonthsYearsFormat(DateTime.now());
     }
   }
 
