@@ -84,4 +84,14 @@ class RepositoryProvider {
         ? resp.map((e) => NoteModel.fromJson(e)).toList()
         : [];
   }
+
+  Future<List<NoteModel>> findNotesByComplete(bool done) async {
+    final db = await database;
+    int whereArgs = (done) ? 1 : 0;
+    final resp =
+        await db.query('Notes', where: 'complete = ?', whereArgs: [whereArgs]);
+    return resp.isNotEmpty
+        ? resp.map((e) => NoteModel.fromJson(e)).toList()
+        : [];
+  }
 }
