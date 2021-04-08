@@ -59,12 +59,16 @@ class _HomePageState extends State<HomePage> {
       key: UniqueKey(),
       child: NoteWidget(note),
       onDismissed: (direction) {
-        notesBloc.deleteNote(note).then((value) => {
-              setState(() {
-                _notes.removeAt(index);
-              })
-            });
+        deleteNote(notesBloc, note, index);
       },
     );
+  }
+
+  void deleteNote(NotesBloc notesBloc, NoteModel note, int index) {
+    notesBloc.deleteNote(note).then((value) => {
+          setState(() {
+            _notes.removeAt(index);
+          })
+        });
   }
 }
