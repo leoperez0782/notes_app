@@ -21,7 +21,7 @@ class _NewNotePageState extends State<NewNotePage> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nueva nota'),
+        title: Text((noteData == null) ? 'Nueva nota' : model.title),
       ),
       body: SingleChildScrollView(
         child: Container(
