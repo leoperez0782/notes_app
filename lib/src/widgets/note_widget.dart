@@ -15,12 +15,8 @@ class NoteWidget extends StatelessWidget {
         children: [
           ListTile(
             title: Text(_model.title),
-            leading: (_model.complete == 1)
-                ? Icon(Icons.verified)
-                : Icon(Icons.check_box_outline_blank),
-            trailing: IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () => print('tap en el icon Button'),
+            leading: Icon(
+              Icons.edit,
             ),
             onTap: () =>
                 Navigator.pushNamed(context, 'new_note', arguments: _model),
