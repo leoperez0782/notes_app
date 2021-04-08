@@ -2,22 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/src/blocs/notes_bloc.dart';
 import 'package:notes_app/src/blocs/provider.dart';
 import 'package:notes_app/src/models/note_model.dart';
+import 'package:notes_app/src/widgets/custom_search_appbar.dart';
 import 'package:notes_app/src/widgets/note_widget.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  List<NoteModel> _notes = [];
+
   @override
   Widget build(BuildContext context) {
     final notesBloc = Provider.notesBloc(context);
-    notesBloc.loadNotes();
+
     return Scaffold(
-      body: _createNoteList(notesBloc),
+      appBar: AppBar(
+        title: Text('Notas'),
+        centerTitle: true,
+      ),
+      body: Scaffold(
+        appBar: PreferredSize(
+          child: CustomSearchAppbar(),
+          preferredSize: Size(double.infinity, 50.0),
+        ),
+        body: _createNoteList(notesBloc),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {Navigator.pushNamed(context, 'new_note')},
         child: Icon(Icons.add),
@@ -31,11 +42,11 @@ class _HomePageState extends State<HomePage> {
         builder:
             (BuildContext context, AsyncSnapshot<List<NoteModel>> snapshot) {
           if (snapshot.hasData) {
-            final notes = snapshot.data;
+            this._notes = snapshot.data;
             return ListView.builder(
-                itemCount: notes.length,
+                itemCount: _notes.length,
                 itemBuilder: (context, i) =>
-                    _createItem(notes[i], notesBloc, notes, i));
+                    _createItem(_notes[i], notesBloc, i));
           }
           return Center(
             child: CircularProgressIndicator(),
@@ -43,18 +54,21 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  Widget _createItem(
-      NoteModel note, NotesBloc notesBloc, List<NoteModel> notes, int index) {
+  Widget _createItem(NoteModel note, NotesBloc notesBloc, int index) {
     return Dismissible(
       key: UniqueKey(),
       child: NoteWidget(note),
       onDismissed: (direction) {
-        notesBloc.deleteNote(note).then((value) => {
-              setState(() {
-                notes.removeAt(index);
-              })
-            });
+        deleteNote(notesBloc, note, index);
       },
     );
+  }
+
+  void deleteNote(NotesBloc notesBloc, NoteModel note, int index) {
+    notesBloc.deleteNote(note).then((value) => {
+          setState(() {
+            _notes.removeAt(index);
+          })
+        });
   }
 }

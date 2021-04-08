@@ -15,12 +15,8 @@ class NoteWidget extends StatelessWidget {
         children: [
           ListTile(
             title: Text(_model.title),
-            leading: (_model.complete == 1)
-                ? Icon(Icons.verified)
-                : Icon(Icons.check_box_outline_blank),
-            trailing: IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () => print('tap en el icon Button'),
+            leading: Icon(
+              Icons.edit,
             ),
             onTap: () =>
                 Navigator.pushNamed(context, 'new_note', arguments: _model),
@@ -40,35 +36,5 @@ class NoteWidget extends StatelessWidget {
         ],
       ),
     ));
-
-    // return Container(
-    //   child: Card(
-    //     elevation: 10.0,
-    //     shadowColor: Colors.black12,
-    //     child: Column(
-    //       children: [
-    //         ListTile(
-    //           title: Text(_model.title),
-    //           leading: (_model.complete == 1)
-    //               ? Icon(Icons.verified)
-    //               : Icon(Icons.check_box_outline_blank),
-    //           subtitle: Text(_model.creationDate),
-    //         ),
-    //         Container(
-    //           child: Text(_model.content),
-    //         ),
-    //         Row(
-    //           children: [
-    //             Text(_model.creationDate),
-    //             SizedBox(
-    //               width: 20.0,
-    //             ),
-
-    //           ],
-    //         )
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

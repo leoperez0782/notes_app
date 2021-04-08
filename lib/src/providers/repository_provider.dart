@@ -54,7 +54,7 @@ class RepositoryProvider {
 
   Future<List<NoteModel>> findAllNotes() async {
     final db = await database;
-    final resp = await db.query('Notes');
+    final resp = await db.query('Notes', orderBy: 'id DESC');
     return resp.isNotEmpty
         ? resp.map((e) => NoteModel.fromJson(e)).toList()
         : [];
@@ -72,5 +72,16 @@ class RepositoryProvider {
     final resp = await db
         .update('Notes', note.toJson(), where: 'id=?', whereArgs: [note.id]);
     return resp;
+  }
+
+  Future<List<NoteModel>> findNotesByTitle(String searchText) async {
+    final db = await database;
+    String whereArgs = '$searchText%';
+    final resp = await db.query('Notes',
+        where: 'title LIKE ?', whereArgs: [whereArgs], orderBy: 'id DESC');
+    print('Desde where en db ${resp.length}');
+    return resp.isNotEmpty
+        ? resp.map((e) => NoteModel.fromJson(e)).toList()
+        : [];
   }
 }

@@ -13,6 +13,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider(
       child: MaterialApp(
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: ThemeMode.system,
         debugShowCheckedModeBanner: false,
         title: 'App de notas',
         initialRoute: 'home',

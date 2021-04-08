@@ -31,4 +31,9 @@ class NotesBloc {
   Future<int> updateNote(NoteModel note) async {
     return await _repoProvider.updateNote(note);
   }
+
+  void loadByTitle(String searchString) async {
+    final res = await _repoProvider.findNotesByTitle(searchString);
+    _notesController.sink.add(res);
+  }
 }
