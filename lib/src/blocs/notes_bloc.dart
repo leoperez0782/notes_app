@@ -36,4 +36,14 @@ class NotesBloc {
     final res = await _repoProvider.findNotesByTitle(searchString);
     _notesController.sink.add(res);
   }
+
+  void loadCompletes() async {
+    final resp = await _repoProvider.findNotesByComplete(true);
+    _notesController.sink.add(resp);
+  }
+
+  void loadUnCompletes() async {
+    final resp = await _repoProvider.findNotesByComplete(false);
+    _notesController.sink.add(resp);
+  }
 }
