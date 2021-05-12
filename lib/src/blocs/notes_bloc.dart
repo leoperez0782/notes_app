@@ -2,6 +2,8 @@ import 'package:notes_app/src/models/note_model.dart';
 import 'package:notes_app/src/providers/repository_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../utils/dates_formater_util.dart';
+
 class NotesBloc {
   final _notesController = BehaviorSubject<List<NoteModel>>();
   final _resultController = BehaviorSubject<bool>();
@@ -29,6 +31,7 @@ class NotesBloc {
   }
 
   Future<int> updateNote(NoteModel note) async {
+    note.modifiedAt = DatesFormaterUtil.daysMonthsYearsFormat(DateTime.now());
     return await _repoProvider.updateNote(note);
   }
 
