@@ -22,6 +22,7 @@ class _NewNotePageState extends State<NewNotePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text((noteData == null) ? 'Nueva nota' : model.title),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -57,6 +58,7 @@ class _NewNotePageState extends State<NewNotePage> {
       textCapitalization: TextCapitalization.sentences,
       maxLength: null,
       maxLines: 200,
+      minLines: 1,
       onSaved: (value) => model.content = value,
     );
   }

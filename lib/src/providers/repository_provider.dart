@@ -35,7 +35,8 @@ class RepositoryProvider {
           title TEXT,
           content TEXT,
           complete INTEGER,
-          creationDate TEXT
+          creationDate TEXT,
+          modifiedAt TEXT
         )
         ''');
     });
@@ -54,7 +55,7 @@ class RepositoryProvider {
 
   Future<List<NoteModel>> findAllNotes() async {
     final db = await database;
-    final resp = await db.query('Notes', orderBy: 'id DESC');
+    final resp = await db.query('Notes', orderBy: 'modifiedAt DESC');
     return resp.isNotEmpty
         ? resp.map((e) => NoteModel.fromJson(e)).toList()
         : [];

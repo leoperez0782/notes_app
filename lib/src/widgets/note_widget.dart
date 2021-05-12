@@ -14,9 +14,12 @@ class NoteWidget extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            title: Text(_model.title),
+            title: Center(child: Text(_model.title)),
             leading: Icon(
               Icons.edit,
+            ),
+            trailing: SizedBox(
+              width: 30,
             ),
             onTap: () =>
                 Navigator.pushNamed(context, 'new_note', arguments: _model),
@@ -31,7 +34,7 @@ class NoteWidget extends StatelessWidget {
           SizedBox(height: 20.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [Text(_model.creationDate)],
+            children: [Text(_model.modifiedAt)],
           )
         ],
       ),
