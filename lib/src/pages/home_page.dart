@@ -37,16 +37,27 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _createNoteList(NotesBloc notesBloc) {
+    final orientation = MediaQuery.of(context).orientation;
     return StreamBuilder(
         stream: notesBloc.notesStream,
         builder:
             (BuildContext context, AsyncSnapshot<List<NoteModel>> snapshot) {
           if (snapshot.hasData) {
             this._notes = snapshot.data;
-            return ListView.builder(
-                itemCount: _notes.length,
-                itemBuilder: (context, i) =>
-                    _createItem(_notes[i], notesBloc, i));
+
+            return _notes.isEmpty
+                ? ListView.builder(
+                    itemCount: _notes.length,
+                    itemBuilder: (context, i) =>
+                        _createItem(_notes[i], notesBloc, i))
+                : GridView.builder(
+                    itemCount: _notes.length,
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount:
+                            (orientation == Orientation.portrait) ? 2 : 3),
+                    itemBuilder: (context, i) =>
+                        _createItem(_notes[i], notesBloc, i));
           }
           return Center(
             child: CircularProgressIndicator(),
