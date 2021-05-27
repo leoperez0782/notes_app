@@ -11,17 +11,17 @@ class NewNotePage extends StatefulWidget {
 class _NewNotePageState extends State<NewNotePage> {
   final formKey = GlobalKey<FormState>();
   NoteModel model = NoteModel();
-  NotesBloc notesBloc;
+  late NotesBloc notesBloc;
   @override
   Widget build(BuildContext context) {
     notesBloc = Provider.notesBloc(context);
-    final NoteModel noteData = ModalRoute.of(context).settings.arguments;
+    final NoteModel? noteData = ModalRoute.of(context)!.settings.arguments as NoteModel?;
     if (noteData != null) {
       model = noteData;
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text((noteData == null) ? 'Nueva nota' : model.title),
+        title: Text((noteData == null) ? 'Nueva nota' : model.title!),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -64,9 +64,9 @@ class _NewNotePageState extends State<NewNotePage> {
   }
 
   void _submit() {
-    if (!formKey.currentState.validate()) return;
+    if (!formKey.currentState!.validate()) return;
     //Dispara el save de todos los textFields del form
-    formKey.currentState.save();
+    formKey.currentState!.save();
     if (model.id == null) {
       notesBloc.createNote(model);
     } else {

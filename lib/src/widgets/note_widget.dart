@@ -10,12 +10,12 @@ class NoteWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brightness = SchedulerBinding.instance.window.platformBrightness;
+    final brightness = SchedulerBinding.instance!.window.platformBrightness;
     final containerHeight = MediaQuery.of(context).size.height * 0.10;
     return Card(
       color: brightness == Brightness.light
-          ? Color(_model.lightColor)
-          : Color(_model.darkColor),
+          ? Color(_model.lightColor!)
+          : Color(_model.darkColor!),
       shape: CardBorderDeco.roundedBorderDeco,
       child: Container(
         padding: EdgeInsets.all(10.0),
@@ -27,7 +27,7 @@ class NoteWidget extends StatelessWidget {
               child: ListTile(
                 title: Center(
                   child: Text(
-                    _model.title,
+                    _model.title!,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
@@ -49,7 +49,7 @@ class NoteWidget extends StatelessWidget {
                   child: Container(
                     height: containerHeight,
                     child: Text(
-                      _model.content,
+                      _model.content!,
                       maxLines: 5,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -62,7 +62,7 @@ class NoteWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Flexible(
-                  child: Text(_model.modifiedAt),
+                  child: Text(_model.modifiedAt!),
                   flex: 1,
                 )
               ],

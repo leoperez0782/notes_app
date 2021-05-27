@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<NoteModel> _notes = [];
+  List<NoteModel>? _notes = [];
 
   @override
   Widget build(BuildContext context) {
@@ -47,19 +47,19 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             this._notes = snapshot.data;
 
-            return _notes.isEmpty
+            return _notes!.isEmpty
                 ? ListView.builder(
-                    itemCount: _notes.length,
+                    itemCount: _notes!.length,
                     itemBuilder: (context, i) =>
-                        _createItem(_notes[i], notesBloc, i))
+                        _createItem(_notes![i], notesBloc, i))
                 : GridView.builder(
-                    itemCount: _notes.length,
+                    itemCount: _notes!.length,
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount:
                             (orientation == Orientation.portrait) ? 2 : 3),
                     itemBuilder: (context, i) =>
-                        _createItem(_notes[i], notesBloc, i));
+                        _createItem(_notes![i], notesBloc, i));
           }
           return Center(
             child: CircularProgressIndicator(),
@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
   void deleteNote(NotesBloc notesBloc, NoteModel note, int index) {
     notesBloc.deleteNote(note).then((value) => {
           setState(() {
-            _notes.removeAt(index);
+            _notes!.removeAt(index);
           })
         });
   }

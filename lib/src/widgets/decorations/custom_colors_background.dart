@@ -28,7 +28,7 @@ class CustomColorBackgrounds {
     int max = _darkThemeColors.length - 1;
     int index = Random().nextInt(max);
 
-    var brightness = SchedulerBinding.instance.window.platformBrightness;
+    var brightness = SchedulerBinding.instance!.window.platformBrightness;
     return brightness == Brightness.light
         ? _whiteThemeColors.elementAt(index)
         : _darkThemeColors.elementAt(index);
