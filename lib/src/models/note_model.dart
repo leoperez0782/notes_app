@@ -13,7 +13,9 @@ class NoteModel {
       this.content,
       this.complete,
       this.creationDate,
-      this.modifiedAt}) {
+      this.modifiedAt,
+      this.lightColor,
+      this.darkColor}) {
     if (this.complete == null) {
       complete = 0;
     }
@@ -30,14 +32,17 @@ class NoteModel {
   int complete;
   String creationDate;
   String modifiedAt;
+  int lightColor;
+  int darkColor;
   factory NoteModel.fromJson(Map<String, dynamic> json) => NoteModel(
-        id: json["id"],
-        title: json["title"],
-        content: json["content"],
-        complete: json["complete"],
-        creationDate: json["creationDate"],
-        modifiedAt: json["modifiedAt"],
-      );
+      id: json["id"],
+      title: json["title"],
+      content: json["content"],
+      complete: json["complete"],
+      creationDate: json["creationDate"],
+      modifiedAt: json["modifiedAt"],
+      lightColor: json["lightColor"],
+      darkColor: json["darkColor"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -45,6 +50,8 @@ class NoteModel {
         "content": content,
         "complete": complete,
         "creationDate": creationDate,
-        "modifiedAt": modifiedAt
+        "modifiedAt": modifiedAt,
+        "lightColor": lightColor,
+        "darkColor": darkColor
       };
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:notes_app/src/models/note_model.dart';
 import 'package:notes_app/src/widgets/decorations/card_border.deco.dart';
-import 'package:notes_app/src/widgets/decorations/custom_colors_background.dart';
 
 class NoteWidget extends StatelessWidget {
   final NoteModel _model;
@@ -10,10 +10,12 @@ class NoteWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CustomColorBackgrounds colorGenerator = CustomColorBackgrounds();
+    final brightness = SchedulerBinding.instance.window.platformBrightness;
     final containerHeight = MediaQuery.of(context).size.height * 0.10;
     return Card(
-      color: colorGenerator.getCustomColor(),
+      color: brightness == Brightness.light
+          ? Color(_model.lightColor)
+          : Color(_model.darkColor),
       shape: CardBorderDeco.roundedBorderDeco,
       child: Container(
         padding: EdgeInsets.all(10.0),

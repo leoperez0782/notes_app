@@ -36,7 +36,9 @@ class RepositoryProvider {
           content TEXT,
           complete INTEGER,
           creationDate TEXT,
-          modifiedAt TEXT
+          modifiedAt TEXT,
+          lightColor INTEGER,
+          darkColor INTEGER
         )
         ''');
     });
@@ -49,7 +51,7 @@ class RepositoryProvider {
         .insert('Notes', entity.toJson())
         .then((value) => value)
         .catchError((error) => errorCode);
-    print(resp);
+
     return resp;
   }
 
@@ -80,7 +82,7 @@ class RepositoryProvider {
     String whereArgs = '$searchText%';
     final resp = await db.query('Notes',
         where: 'title LIKE ?', whereArgs: [whereArgs], orderBy: 'id DESC');
-    print('Desde where en db ${resp.length}');
+
     return resp.isNotEmpty
         ? resp.map((e) => NoteModel.fromJson(e)).toList()
         : [];

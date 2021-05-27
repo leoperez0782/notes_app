@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/src/blocs/notes_bloc.dart';
 import 'package:notes_app/src/blocs/provider.dart';
 import 'package:notes_app/src/models/note_model.dart';
-import 'package:notes_app/src/widgets/custom_search_appbar.dart';
+import 'package:notes_app/src/search/search_delegate.dart';
 import 'package:notes_app/src/widgets/note_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,19 +16,21 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final notesBloc = Provider.notesBloc(context);
-
+    notesBloc.loadNotes();
     return Scaffold(
       appBar: AppBar(
         title: Text('Notas'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(context: context, delegate: NoteSearch());
+            },
+          )
+        ],
       ),
-      body: Scaffold(
-        appBar: PreferredSize(
-          child: CustomSearchAppbar(),
-          preferredSize: Size(double.infinity, 50.0),
-        ),
-        body: _createNoteList(notesBloc),
-      ),
+      body: _createNoteList(notesBloc),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {Navigator.pushNamed(context, 'new_note')},
         child: Icon(Icons.add),
