@@ -1,5 +1,6 @@
 import 'package:notes_app/src/models/note_model.dart';
 import 'package:notes_app/src/providers/repository_provider.dart';
+import 'package:notes_app/src/widgets/decorations/custom_colors_background.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../utils/dates_formater_util.dart';
@@ -17,6 +18,11 @@ class NotesBloc {
   Stream<bool> get resultStream => _resultController.stream;
 
   void createNote(NoteModel model) async {
+    //Add colors before save it.
+    final CustomColorBackgrounds colorGenerator = CustomColorBackgrounds();
+    model.lightColor = colorGenerator.getCustomLightColor().value;
+    model.darkColor = colorGenerator.getCustomDarkColor().value;
+
     final res = await _repoProvider.createNote(model);
     _resultController.sink.add((res > 0));
   }
