@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:notes_app/src/models/note_model.dart';
 import 'package:path/path.dart';
@@ -6,13 +7,13 @@ import 'package:sqflite/sqflite.dart';
 
 class RepositoryProvider {
   static const int errorCode = -1;
-  static Database _database;
+  static Database? _database;
 
   static final RepositoryProvider repoProvider = RepositoryProvider._();
 
   RepositoryProvider._();
 
-  Future<Database> get database async {
+  Future<Database?> get database async {
     if (_database != null) return _database;
     _database = await initDB();
     return _database;
@@ -21,9 +22,9 @@ class RepositoryProvider {
   Future<Database> initDB() async {
     //PAth donde almacenamos la base de datos.
 
-    Directory documentsDirectory =
+    Directory? documentsDirectory =
         await getExternalStorageDirectory(); //este solo funciona en android.
-    final path = join(documentsDirectory.path, 'NotesDB.db');
+    final path = join(documentsDirectory!.path, 'NotesDB.db');
     print(path);
 
     //crear db
@@ -47,7 +48,7 @@ class RepositoryProvider {
   Future<int> createNote(NoteModel entity) async {
     final db = await database;
     //final resp =await db.insert('Notes', entity.toJson());
-    final resp = await db
+    final resp = await db!
         .insert('Notes', entity.toJson())
         .then((value) => value)
         .catchError((error) => errorCode);
@@ -57,22 +58,22 @@ class RepositoryProvider {
 
   Future<List<NoteModel>> findAllNotes() async {
     final db = await database;
-    final resp = await db.query('Notes', orderBy: 'modifiedAt DESC');
+    final resp = await db!.query('Notes', orderBy: 'modifiedAt DESC');
     return resp.isNotEmpty
         ? resp.map((e) => NoteModel.fromJson(e)).toList()
         : [];
   }
 
-  Future<int> deleteNote(int id) async {
+  Future<int> deleteNote(int? id) async {
     final db = await database;
-    final resp = await db.delete('Notes', where: 'id=?', whereArgs: [id]);
+    final resp = await db!.delete('Notes', where: 'id=?', whereArgs: [id]);
 
     return resp;
   }
 
   Future<int> updateNote(NoteModel note) async {
     final db = await database;
-    final resp = await db
+    final resp = await db!
         .update('Notes', note.toJson(), where: 'id=?', whereArgs: [note.id]);
     return resp;
   }
@@ -80,7 +81,7 @@ class RepositoryProvider {
   Future<List<NoteModel>> findNotesByTitle(String searchText) async {
     final db = await database;
     String whereArgs = '$searchText%';
-    final resp = await db.query('Notes',
+    final resp = await db!.query('Notes',
         where: 'title LIKE ?', whereArgs: [whereArgs], orderBy: 'id DESC');
 
     return resp.isNotEmpty

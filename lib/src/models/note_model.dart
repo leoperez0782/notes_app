@@ -26,14 +26,14 @@ class NoteModel {
     }
   }
 
-  int id;
-  String title;
-  String content;
-  int complete;
-  String creationDate;
-  String modifiedAt;
-  int lightColor;
-  int darkColor;
+  int? id;
+  String? title;
+  String? content;
+  int? complete;
+  String? creationDate;
+  String? modifiedAt;
+  int? lightColor;
+  int? darkColor;
   factory NoteModel.fromJson(Map<String, dynamic> json) => NoteModel(
       id: json["id"],
       title: json["title"],

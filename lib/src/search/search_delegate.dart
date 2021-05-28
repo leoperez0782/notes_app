@@ -4,7 +4,7 @@ import 'package:notes_app/src/blocs/provider.dart';
 import 'package:notes_app/src/models/note_model.dart';
 
 class NoteSearch extends SearchDelegate {
-  List<String> recentSearchs = [];
+  List<String?> recentSearchs = [];
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -35,7 +35,7 @@ class NoteSearch extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     final notesBloc = Provider.notesBloc(context);
     final suggest =
-        recentSearchs.where((n) => n.toLowerCase().startsWith(query)).toList();
+        recentSearchs.where((n) => n!.toLowerCase().startsWith(query)).toList();
     return suggest.isEmpty
         ? _loadSuggestions(notesBloc)
         : _showSuggestions(suggest);
@@ -50,11 +50,11 @@ class NoteSearch extends SearchDelegate {
           var notes = snapshot.data;
           if (snapshot.hasData) {
             return ListView.builder(
-              itemCount: notes.length,
+              itemCount: notes!.length,
               itemBuilder: (context, i) {
                 return ListTile(
                   leading: Icon(Icons.notes),
-                  title: Text(notes[i].title),
+                  title: Text(notes[i].title!),
                   onTap: () {
                     recentSearchs.add(notes[i].title);
                     close(context, null);
@@ -70,13 +70,13 @@ class NoteSearch extends SearchDelegate {
         });
   }
 
-  Widget _showSuggestions(List<String> suggest) {
+  Widget _showSuggestions(List<String?> suggest) {
     return ListView.builder(
         itemCount: suggest.length,
         itemBuilder: (context, i) {
           return ListTile(
             leading: Icon(Icons.notes),
-            title: Text(suggest[i]),
+            title: Text(suggest[i]!),
             onTap: () {},
           );
         });

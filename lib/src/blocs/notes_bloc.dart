@@ -10,8 +10,8 @@ class NotesBloc {
   final _resultController = BehaviorSubject<bool>();
   final _repoProvider = RepositoryProvider.repoProvider;
   void dispose() {
-    _notesController?.close();
-    _resultController?.close();
+    _notesController.close();
+    _resultController.close();
   }
 
   Stream<List<NoteModel>> get notesStream => _notesController.stream;
