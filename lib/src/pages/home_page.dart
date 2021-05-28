@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/src/blocs/notes_bloc.dart';
 import 'package:notes_app/src/blocs/provider.dart';
+import 'package:notes_app/src/minimal-I18n/app_localizations.dart';
 import 'package:notes_app/src/models/note_model.dart';
 import 'package:notes_app/src/search/search_delegate.dart';
 import 'package:notes_app/src/widgets/note_widget.dart';
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     notesBloc.loadNotes();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notas'),
+        title: Text(AppLocalizations.of(context).homeTitle),
         centerTitle: true,
         actions: [
           IconButton(

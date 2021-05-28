@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/src/blocs/notes_bloc.dart';
 import 'package:notes_app/src/blocs/provider.dart';
+import 'package:notes_app/src/minimal-I18n/app_localizations.dart';
 import 'package:notes_app/src/models/note_model.dart';
 
 class NewNotePage extends StatefulWidget {
@@ -15,13 +16,16 @@ class _NewNotePageState extends State<NewNotePage> {
   @override
   Widget build(BuildContext context) {
     notesBloc = Provider.notesBloc(context);
-    final NoteModel? noteData = ModalRoute.of(context)!.settings.arguments as NoteModel?;
+    final NoteModel? noteData =
+        ModalRoute.of(context)!.settings.arguments as NoteModel?;
     if (noteData != null) {
       model = noteData;
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text((noteData == null) ? 'Nueva nota' : model.title!),
+        title: Text((noteData == null)
+            ? AppLocalizations.of(context).newNoteTitle
+            : model.title!),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -44,7 +48,8 @@ class _NewNotePageState extends State<NewNotePage> {
 
   Widget _createHeader() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'Título'),
+      decoration:
+          InputDecoration(labelText: AppLocalizations.of(context).titleLabel),
       initialValue: (model.title == null) ? "" : model.title,
       textCapitalization: TextCapitalization.sentences,
       onSaved: (value) => model.title = value,
@@ -53,7 +58,8 @@ class _NewNotePageState extends State<NewNotePage> {
 
   Widget _createBody() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'Nota'),
+      decoration:
+          InputDecoration(labelText: AppLocalizations.of(context).noteLabel),
       initialValue: (model.content == null) ? "" : model.content,
       textCapitalization: TextCapitalization.sentences,
       maxLength: null,
