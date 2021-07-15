@@ -79,6 +79,7 @@ class _NewNotePageState extends State<NewNotePage> {
       notesBloc.updateNote(model);
     }
 
-    Navigator.pushReplacementNamed(context, 'home');
+    //Navigator.pushReplacementNamed(context, 'home');
+    Navigator.pop(context);
   }
 }

@@ -12,6 +12,9 @@ class CustomColorBackgrounds {
     Color(0xffFFCCBC),
     Color(0xffFFE57F),
     Color(0xffCFD8DC),
+    Color(0xff80DEEA),
+    Color(0xffF0F4C3),
+    Color(0xffFF8F00),
   ];
 
   List<Color> _darkThemeColors = [
@@ -22,6 +25,9 @@ class CustomColorBackgrounds {
     Color(0xff4E342E),
     Color(0xff424242),
     Color(0xffBF360C),
+    Color(0xff00796B),
+    Color(0xff2962FF),
+    Color(0xff00695C),
   ];
 
   Color getCustomColor() {
